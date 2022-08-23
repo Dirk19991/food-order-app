@@ -1,18 +1,23 @@
-import { React, useContext } from 'react';
-import classes from './Cart.module.css';
-import Modal from '../UI/Modal';
-import CartContext from '../store/cart-context';
-import CartItem from './CartItem';
+import { useContext } from 'react';
 
-export default function Cart(props) {
+import Modal from '../UI/Modal';
+import CartItem from './CartItem';
+import classes from './Cart.module.css';
+import CartContext from '../store/cart-context';
+
+const Cart = (props) => {
   const cartCtx = useContext(CartContext);
 
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
   const hasItems = cartCtx.items.length > 0;
 
-  const cartItemRemoveHandler = (id) => {};
+  const cartItemRemoveHandler = (id) => {
+    cartCtx.removeItem(id);
+  };
 
-  const cartItemAddHandler = (item) => {};
+  const cartItemAddHandler = (item) => {
+    cartCtx.addItem({ ...item, amount: 1 });
+  };
 
   const cartItems = (
     <ul className={classes['cart-items']}>
@@ -44,4 +49,6 @@ export default function Cart(props) {
       </div>
     </Modal>
   );
-}
+};
+
+export default Cart;
